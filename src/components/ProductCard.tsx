@@ -2,6 +2,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image"; // 1. Import the Next.js Image component
 import type { Product } from "@/data/products";
 import { useStore } from "@/context/StoreContext";
 
@@ -32,7 +33,14 @@ export default function ProductCard({ product }: ProductCardProps) {
             {isWishlisted ? "♥" : "♡"}
           </button>
 
-          <img src={product.image} alt={product.name} />
+          {/* 2. Replace standard img with Next.js Image */}
+          <Image
+            src={product.image}
+            alt={product.name}
+            fill
+            sizes="(max-width: 768px) 50vw, 25vw"
+            className="object-cover"
+          />
 
           <button className="add-button">
             VIEW PRODUCT

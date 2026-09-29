@@ -4,6 +4,7 @@
 import { useState, useMemo } from "react";
 import { products, formatPrice } from "@/data/products";
 import { useStore } from "@/context/StoreContext";
+import { motion } from "framer-motion";
 import ProductCard from "@/components/ProductCard";
 
 export default function HomePage() {
@@ -30,23 +31,54 @@ export default function HomePage() {
     <>
       {/* HERO SECTION */}
       <section className="hero">
-        <img
-          src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=2000&q=90"
-          alt="New fashion collection"
-        />
-        <div className="hero-overlay">
-          <div className="hero-text">
-            <p>NEW COLLECTION</p>
-            <h1>AUTUMN / WINTER</h1>
-            <button onClick={() => {
-              setCategory("ALL");
-              document.getElementById("products")?.scrollIntoView({ behavior: "smooth" });
-            }}>
-              SHOP NOW
-            </button>
-          </div>
-        </div>
-      </section>
+  <motion.img
+    initial={{ scale: 1.1, opacity: 0 }}
+    animate={{ scale: 1, opacity: 1 }}
+    transition={{ duration: 1.2, ease: "easeOut" }}
+    src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=2000&q=90"
+    alt="New fashion collection"
+  />
+  <div className="hero-overlay">
+    <motion.div 
+      className="hero-text"
+      initial={{ y: 50, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ delay: 0.5, duration: 0.8, ease: "easeOut" }}
+    >
+      <motion.p
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.7, duration: 0.6 }}
+      >
+        NEW COLLECTION
+      </motion.p>
+      
+      <motion.h1
+        initial={{ y: 30, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.9, duration: 0.8 }}
+      >
+        AUTUMN / WINTER
+      </motion.h1>
+
+      <motion.button
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 1.1, duration: 0.6 }}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        onClick={() => {
+          setCategory("ALL");
+          document
+            .getElementById("products")
+            ?.scrollIntoView({ behavior: "smooth" });
+        }}
+      >
+        SHOP NOW
+      </motion.button>
+    </motion.div>
+  </div>
+</section>
 
       {/* QUICK CATEGORIES */}
       <section className="quick-categories">
