@@ -34,13 +34,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
           <img src={product.image} alt={product.name} />
 
-          <button
-            className="add-button"
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-            }}
-          >
+          <button className="add-button">
             VIEW PRODUCT
           </button>
         </div>
