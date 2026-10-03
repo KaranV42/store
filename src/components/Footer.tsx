@@ -10,7 +10,9 @@ export default function Footer() {
     <footer className="footer">
       <div className="footer-top">
         <div className="footer-brand">
-          <div className="footer-logo">ZARA</div>
+          <div className="footer-logo">
+  AMD<span className="logo-star">✦</span>
+</div>
           <p>Contemporary fashion designed for everyday expression.</p>
         </div>
 
@@ -47,7 +49,7 @@ export default function Footer() {
       </div>
 
       <div className="footer-bottom">
-        <span>© 2026 ZARA-STYLE STORE</span>
+        <span>© 2026 AMD ATELIER</span>
         <span>INDIA / INR</span>
         <span>PRIVACY · TERMS</span>
       </div>

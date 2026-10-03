@@ -1,16 +1,36 @@
 // src/app/layout.tsx
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { StoreProvider } from "@/context/StoreContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import SmoothScroll from "@/components/SmoothScroll";
 
-const inter = Inter({ subsets: ["latin"] });
+// Configure Inter for UI, Body, and Buttons
+const inter = Inter({ 
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+// Configure Playfair for Editorial Headings
+const playfair = Playfair_Display({ 
+  subsets: ["latin"],
+  variable: "--font-playfair",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
-  title: "Zara-Style Store",
+  title: {
+    default: "AMD | Contemporary Fashion",
+    template: "%s | AMD",
+  },
   description: "Contemporary fashion designed for everyday expression.",
+  openGraph: {
+    siteName: "AMD",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
@@ -20,16 +40,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        {/* THIS DIV IS CRITICAL FOR THE CSS TO WORK */}
-        <div className="app">
-          <StoreProvider>
-            <div className="announcement">FREE SHIPPING ON ORDERS OVER ₹5,000</div>
-            <Header />
-            <main>{children}</main>
-            <Footer />
-          </StoreProvider>
-        </div>
+      {/* Apply both font variables to the root HTML element */}
+      <body className={`${inter.variable} ${playfair.variable}`}>
+        <SmoothScroll>
+          <div className="app">
+            <StoreProvider>
+              <Header />
+              <main>{children}</main>
+              <Footer />
+            </StoreProvider>
+          </div>
+        </SmoothScroll>
       </body>
     </html>
   );

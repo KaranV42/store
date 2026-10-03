@@ -5,9 +5,12 @@ import { useState, useMemo } from "react";
 import { products, formatPrice } from "@/data/products";
 import { useStore } from "@/context/StoreContext";
 import { motion } from "framer-motion";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import ProductCard from "@/components/ProductCard";
 
 export default function HomePage() {
+  const router = useRouter();
   const { wishlist } = useStore();
   
   const [category, setCategory] = useState("ALL");
@@ -81,18 +84,26 @@ export default function HomePage() {
 </section>
 
       {/* QUICK CATEGORIES */}
-      <section className="quick-categories">
-        <button onClick={() => setCategory("WOMEN")}>
-          <span>01</span> WOMEN <small>SHOP WOMEN</small>
+            <section className="quick-categories">
+        <button onClick={() => router.push("/shop/women")}>
+          <span>01</span>
+          <strong>Women</strong>
+          <small>SHOP WOMEN</small>
         </button>
-        <button onClick={() => setCategory("MEN")}>
-          <span>02</span> MEN <small>SHOP MEN</small>
+        <button onClick={() => router.push("/shop/men")}>
+          <span>02</span>
+          <strong>Men</strong>
+          <small>SHOP MEN</small>
         </button>
-        <button onClick={() => setCategory("ACCESSORIES")}>
-          <span>03</span> ACCESSORIES <small>SHOP ACCESSORIES</small>
+        <button onClick={() => router.push("/shop/accessories")}>
+          <span>03</span>
+          <strong>Accessories</strong>
+          <small>SHOP ACCESSORIES</small>
         </button>
-        <button onClick={() => setCategory("ALL")}>
-          <span>04</span> NEW IN <small>DISCOVER MORE</small>
+        <button onClick={() => router.push("/shop/new")}>
+          <span>04</span>
+          <strong>New In</strong>
+          <small>DISCOVER MORE</small>
         </button>
       </section>
 
@@ -117,11 +128,31 @@ export default function HomePage() {
         </div>
 
         {filteredProducts.length > 0 ? (
-          <div className="products">
+          <motion.div 
+            className="products"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }} // Triggers when 10% of grid is visible
+            variants={{
+              hidden: { opacity: 0 },
+              visible: {
+                opacity: 1,
+                transition: { staggerChildren: 0.08 } // 80ms delay between each card
+              }
+            }}
+          >
             {filteredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
+              <motion.div
+                key={product.id}
+                variants={{
+                  hidden: { opacity: 0, y: 30 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
+                }}
+              >
+                <ProductCard product={product} />
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         ) : (
           <div className="no-products">
             <h3>NO PRODUCTS FOUND</h3>
@@ -130,16 +161,35 @@ export default function HomePage() {
         )}
       </section>
 
-      {/* PROMO SECTION */}
-      <section className="promo">
-        <img
-          src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=1800&q=90"
-          alt="Women's collection"
-        />
-        <div className="promo-content">
-          <p>EDITORIAL</p>
-          <h2>THE NEW <br /> SILHOUETTE</h2>
-          <button onClick={() => setCategory("WOMEN")}>EXPLORE WOMEN</button>
+            {/* 4. EDITORIAL SPLIT */}
+      <section className="editorial-split">
+        <div className="editorial-copy">
+          <p className="uppercase-label">Editorial</p>
+          <h2 className="section-title">
+            The New
+            <br />
+            Silhouette
+          </h2>
+          <p className="editorial-lede">
+            Fluid tailoring and sculpted minimalism define the season. Pieces
+            cut to move, designed to remain.
+          </p>
+          <button
+            className="text-cta"
+            onClick={() => router.push("/shop/women")}
+          >
+            EXPLORE WOMEN <span aria-hidden="true">→</span>
+          </button>
+        </div>
+
+        <div className="editorial-media">
+          <Image
+            src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=1600&q=85"
+            alt="The new silhouette editorial"
+            fill
+            sizes="(max-width: 900px) 100vw, 55vw"
+            className="editorial-img"
+          />
         </div>
       </section>
 
@@ -164,7 +214,9 @@ export default function HomePage() {
                 value={newsletter}
                 onChange={(e) => setNewsletter(e.target.value)}
               />
-              <button onClick={handleSubscribe}>SUBSCRIBE</button>
+              <button onClick={handleSubscribe}>
+  SUBSCRIBE <span aria-hidden="true">→</span>
+</button>
             </div>
           </>
         ) : (
